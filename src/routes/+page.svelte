@@ -9,14 +9,16 @@ $: some_highlights_selected = highlight_ids_selected.length > 0;
 let book_id_to_summary = {}
 
 async function loadHighlights() {
-    const server_url = 'http://127.0.0.1:8080'
+    // const server_url = 'http://127.0.0.1:8080'
+    const server_url = 'https://api.babotree.com'
     const res = await fetch(server_url + '/readwise')
     const data = await res.json()
     highlights_by_source = data.highlights_by_source
 }
 
 async function summarizeHighlights(source_id) {
-    const server_url = 'http://127.0.0.1:8080'
+    // const server_url = 'http://127.0.0.1:8080'
+    const server_url = 'https://api.babotree.com'
     const res = await fetch(server_url + '/summarize', {
         method: 'POST',
         headers: {
@@ -39,7 +41,8 @@ function toggleHighlightIdSelected(highlight_id) {
 let questions_answers = [];
 
 async function generateQuestionsForSelectedHighlights() {
-    const server_url = 'http://localhost:8080'
+    // const server_url = 'http://localhost:8080'
+    const server_url = 'https://api.babotree.com'
     const res = await fetch(server_url + '/generate_questions', {
         method: 'POST',
         headers: {
@@ -56,7 +59,8 @@ async function generateQuestionsForSelectedHighlights() {
 let similar_highlights = [];
 
 async function getSimilarHighlights() {
-    const server_url = 'http://localhost:8080'
+    // const server_url = 'http://localhost:8080'
+    const server_url = 'https://api.babotree.com'
     let highlight_ids_param = highlight_ids_selected.join(',');
     let encoded_highlight_ids_param = encodeURIComponent(highlight_ids_param);
     const res = await fetch(server_url + `/similar_highlights?hids=${encoded_highlight_ids_param}`)
