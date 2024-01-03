@@ -11,8 +11,10 @@
     let outline_html = undefined;
 
     onMount(async () => {
-        const server_url = `http://localhost:8080/source/outline/${source_id}`
-        const res = await fetch(server_url)
+        // const server_url = 'http://localhost:8080'
+        const server_url = 'https://api.babotree.com'
+        const resource_url = `${server_url}/source/outline/${source_id}`
+        const res = await fetch(resource_url)
         const data = await res.json()
         outline_html = data.outline_md;
         console.log("OUTLINE_HTML");
