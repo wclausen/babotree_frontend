@@ -12,8 +12,8 @@ let book_id_to_summary = {}
 let flashcards = [];
 
 async function loadFlashcards() {
-    const server_url = 'http://127.0.0.1:8080'
-    // const server_url = 'https://api.babotree.com'
+    // const server_url = 'http://127.0.0.1:8080'
+    const server_url = 'https://api.babotree.com'
     const res = await fetch(server_url + '/flashcards');
     const data = await res.json();
     flashcards = data.flashcards;
