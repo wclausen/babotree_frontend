@@ -1,12 +1,26 @@
 <script>
     import { Alert, Card, A, Button, Heading, Checkbox } from 'flowbite-svelte';
     import { marked } from 'marked';
+    import Flashcard from './Flashcard.svelte';
 
 let highlights_by_source = [];
 let highlight_ids_selected = [];
 $: some_highlights_selected = highlight_ids_selected.length > 0;
 
 let book_id_to_summary = {}
+
+let flashcards = [];
+
+async function loadFlashcards() {
+    const server_url = 'http://127.0.0.1:8080'
+    // const server_url = 'https://api.babotree.com'
+    const res = await fetch(server_url + '/flashcards');
+    const data = await res.json();
+    flashcards = data.flashcards;
+    console.log(flashcards);
+}
+
+
 
 async function loadHighlights() {
     // const server_url = 'http://127.0.0.1:8080'
@@ -73,7 +87,12 @@ async function getSimilarHighlights() {
 <div class="flex flex-col gap-8 p-8">
     <div class="text-4xl font-medium">Welcome to BaboTree</div>
     <div>
-        <Button outline on:click={loadHighlights}>Load Readwise Highlights</Button>
+        <Button outline on:click={loadFlashcards}>Load Flashcards</Button>
+    </div>
+    <div class="flex flex-wrap gap-4">
+        {#each flashcards as flashcard}
+            <Flashcard question={flashcard.question} answer={flashcard.answer}></Flashcard>
+        {/each}
     </div>
     <div class="grid grid-cols-2">
         <div>
