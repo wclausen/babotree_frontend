@@ -20,6 +20,9 @@ async function loadFlashcards() {
     console.log(flashcards);
 }
 
+function shuffleFlashcards() {
+    flashcards = flashcards.sort(() => Math.random() - 0.5);
+}
 
 
 async function loadHighlights() {
@@ -86,11 +89,14 @@ async function getSimilarHighlights() {
 
 <div class="flex flex-col gap-8 p-8">
     <div class="text-4xl font-medium">Welcome to BaboTree</div>
-    <div>
+    <div class="flex flex-row gap-4">
         <Button outline on:click={loadFlashcards}>Load Flashcards</Button>
+        {#if flashcards.length > 0}
+            <Button outline on:click={shuffleFlashcards}>Shuffle</Button>
+        {/if}
     </div>
     <div class="flex flex-wrap gap-4">
-        {#each flashcards as flashcard}
+        {#each flashcards as flashcard (flashcard.id)}
             <Flashcard flashcard_id={flashcard.id} topic={flashcard.topic} question={flashcard.question} answer={flashcard.answer}></Flashcard>
         {/each}
     </div>

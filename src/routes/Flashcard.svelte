@@ -8,6 +8,7 @@
     var showAnswer = false;
 
     var related_highlights: string[] = [];
+    var explanation: string | null = null;
 
     async function loadRelatedHighlights() {
         // const server_url = 'http://127.0.0.1:8080'
@@ -15,6 +16,14 @@
         const res = await fetch(server_url + `/flashcard/${flashcard_id}/related_highlights`)
         const data = await res.json();
         related_highlights = data.related_highlights;
+    }
+
+    async function explainFlaschard() {
+        // const server_url = 'http://127.0.0.1:8080'
+        const server_url = 'https://api.babotree.com'
+        const res = await fetch(server_url + `/flashcard/${flashcard_id}/explain`)
+        const data = await res.json();
+        explanation = data.explanation;
     }
 </script>
 
@@ -32,11 +41,16 @@
                 <li class="max-w-xl">{related_highlight}</li>
             {/each}
         </ul>
-    {/if}  
-    <div class="flex justify-end">
+    {/if}
+    {#if explanation}
+        <div class="max-w-xl">Explanation</div>
+        <div class="max-w-xl">{explanation}</div>
+    {/if}
+    <div class="flex justify-end gap-4">
         <Button outline on:click={() => showAnswer = !showAnswer}>Show Answer</Button>
         {#if showAnswer}
             <Button outline on:click={loadRelatedHighlights}>Load Related Highlights</Button>
+            <Button outline on:click={explainFlaschard}>Explain</Button>
         {/if}
     </div>
 </Card>
