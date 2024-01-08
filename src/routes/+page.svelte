@@ -17,6 +17,7 @@ async function loadFlashcards() {
     const res = await fetch(server_url + '/flashcards');
     const data = await res.json();
     flashcards = data.flashcards;
+    shuffleFlashcards();
     console.log(flashcards);
 }
 
