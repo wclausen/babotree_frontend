@@ -10,14 +10,16 @@ $: some_highlights_selected = highlight_ids_selected.length > 0;
 let book_id_to_summary = {}
 
 let flashcards = [];
+let offset = 0;
 
 async function loadFlashcards() {
     // const server_url = 'http://127.0.0.1:8080'
     const server_url = 'https://api.babotree.com'
-    const res = await fetch(server_url + '/flashcards');
+    const res = await fetch(server_url + '/flashcards?offset=' + offset);
     const data = await res.json();
     flashcards = data.flashcards;
     shuffleFlashcards();
+    offset += flashcards.length;
     console.log(flashcards);
 }
 
