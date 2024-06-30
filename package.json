@@ -25,6 +25,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"marked": "^11.1.0"
+		"@tailwindcss/typography": "^0.5.13",
+		"flowbite-svelte-blocks": "^1.1.0",
+		"flowbite-svelte-icons": "^1.0.2",
+		"marked": "^11.1.0",
+		"pnpm": "^8.14.3"
 	}
 }

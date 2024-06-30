@@ -11,12 +11,12 @@
     let outline_html = undefined;
 
     onMount(async () => {
-        // const server_url = 'http://localhost:8080'
-        const server_url = 'https://api.babotree.com'
+        const server_url = 'http://localhost:8080'
+        // const server_url = 'https://api.babotree.com'
         const resource_url = `${server_url}/source/outline/${source_id}`
         const res = await fetch(resource_url)
         const data = await res.json()
-        outline_html = data.outline_md;
+        outline_html = data.outline_html;
         console.log("OUTLINE_HTML");
         console.log(outline_html);
     })
@@ -26,14 +26,17 @@
 <div>
     Outline
     {#if outline_html}
-        <div class="whitespace-pre">
-            {outline_html}
+        <div class="flex-row items-center">
+            <div class="prose p-8">
+                {@html outline_html}
+            </div>
         </div>
+        
     {/if}
 </div>
 
 <style lang="postcss">
     h1 {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
     }
 </style>

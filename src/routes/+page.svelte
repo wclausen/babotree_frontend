@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
     import { Alert, Card, A, Button, Heading, Checkbox } from 'flowbite-svelte';
     import { marked } from 'marked';
     import Flashcard from './Flashcard.svelte';
+    import Sidebar from './Sidebar.svelte';
 
 let highlights_by_source = [];
 let highlight_ids_selected = [];
@@ -12,19 +14,41 @@ let book_id_to_summary = {}
 let flashcards = [];
 let offset = 0;
 
-async function loadFlashcards() {
+async function loadFlashcards(source_id: string) {
     // const server_url = 'http://127.0.0.1:8080'
     const server_url = 'https://api.babotree.com'
-    const res = await fetch(server_url + '/flashcards?offset=' + offset);
-    const data = await res.json();
-    flashcards = data.flashcards;
-    shuffleFlashcards();
-    offset += flashcards.length;
-    console.log(flashcards);
+    if (source_id) {
+        const res = await fetch(server_url + '/flashcards?source_id=' + source_id);
+        const data = await res.json();
+        flashcards = data.flashcards;
+        // shuffleFlashcards();
+        offset += flashcards.length;
+        console.log(flashcards);
+    } else {
+        const res = await fetch(server_url + '/flashcards?offset=' + offset);
+        const data = await res.json();
+        flashcards = data.flashcards;
+        shuffleFlashcards();
+        offset += flashcards.length;
+        console.log(flashcards);
+    }
 }
 
 function shuffleFlashcards() {
     flashcards = flashcards.sort(() => Math.random() - 0.5);
+}
+
+let topics = [];
+
+async function loadTopics() {
+    // const server_url = 'http://127.0.0.1:8080'
+    const server_url = 'https://api.babotree.com'
+    const res = await fetch(server_url + '/topics')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        topics = data.topics;
+    })
 }
 
 
@@ -88,15 +112,24 @@ async function getSimilarHighlights() {
     similar_highlights = data.similar_highlights;
 }
 
+onMount(() => {
+    loadTopics();
+});
+
 </script>
 
-<div class="flex flex-col gap-8 p-8">
-    <div class="text-4xl font-medium">Welcome to BaboTree</div>
+<div class="">
+    <!-- <div class="text-4xl font-medium">Welcome to BaboTree</div>
     <div class="flex flex-row gap-4">
         <Button outline on:click={loadFlashcards}>Load Flashcards</Button>
         {#if flashcards.length > 0}
             <Button outline on:click={shuffleFlashcards}>Shuffle</Button>
         {/if}
+    </div> -->
+    <div class="p-4 flex flex-wrap gap-4">
+        {#each topics as topic}
+            <Button outline on:click={() => loadFlashcards(topic.id)}>{topic.title}</Button>
+        {/each}
     </div>
     <div class="flex flex-wrap gap-4">
         {#each flashcards as flashcard (flashcard.id)}
