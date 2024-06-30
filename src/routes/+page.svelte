@@ -3,7 +3,7 @@
     import { Alert, Card, A, Button, Heading, Checkbox } from 'flowbite-svelte';
     import { marked } from 'marked';
     import Flashcard from './Flashcard.svelte';
-    import Sidebar from './Sidebar.svelte';
+    // import Sidebar from './Sidebar.svelte';
 
 let highlights_by_source = [];
 let highlight_ids_selected = [];
